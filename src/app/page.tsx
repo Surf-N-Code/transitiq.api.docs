@@ -1,101 +1,619 @@
-import Image from "next/image";
+'use client'
+import { RedocStandalone } from 'redoc';
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+    <RedocStandalone options={{
+      generateCodeSamples: {
+        languages: [{ lang: 'curl' }, { lang: 'Node.js' }, { lang: 'JavaScript', label: 'JS' }],
+        skipOptionalParameters: true,
+      },
+      theme: {
+        colors: {
+          primary: {
+            main: '#6EC5AB',
+          },
+          text: {
+            primary: '#fff',
+          },
+        },
+        sidebar: {
+          backgroundColor: '#fff',
+        },
+        typography: {
+          fontFamily: `"museo-sans", 'Helvetica Neue', Helvetica, Arial, sans-serif`,
+          fontSize: '15px',
+          lineHeight: '1.5',
+          code: {
+            code: '#87E8C7',
+            backgroundColor: '#4D4D4E',
+          },
+        },
+        schema: {
+          nestedBackground: '#4D4D4E',
+        },
+        menu: {
+          backgroundColor: '#ffffff',
+        },
+      },
+    }}
+    spec={{
+      "openapi": "3.0.0",
+      "info": {
+        "version": "1.0.0",
+        "title": "TransitIQ",
+        "description": "TransitIQ API Documentation"
+      },
+      
+      "paths": {
+        "/verify": {
+          "post": {
+            "servers": [
+              {
+                "url": "https://api.transitiq.de",
+                "description": "Production server"
+              }
+            ],
+            "summary": "Verify uploaded file",
+            "description": "Example usage:\n```javascript\nconst formData = new FormData();\n\nconst data = {\n  uuid: 'mentz-id',\n  user_personal_data: {\n    first_name: 'Norman',\n    // ... other fields\n  },\n};\n\nformData.append('data', JSON.stringify(data));\n\ndocuments.forEach((doc, index) => {\n  formData.append('files', fileObject, doc.id);\n});\n```",
+            "requestBody": {
+              "required": true,
+              "content": {
+                "multipart/form-data": {
+                  "schema": {
+                    "$ref": "#/components/schemas/VerifyRequest"
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/VerifyRequest"
+                  }
+                }
+              }
+            },
+            "security": [
+              {
+                "ApiKeyAuth": []
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Success",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "allOf": [
+                        { "$ref": "#/components/schemas/BaseResponse" },
+                        {
+                          "properties": {
+                            "status_message": {
+                              "type": "string",
+                              "example": "approved"
+                            },
+                            "status_code": {
+                              "type": "integer",
+                              "example": 100
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "202": {
+                "description": "Pending Review",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "allOf": [
+                        { "$ref": "#/components/schemas/BaseResponse" },
+                        {
+                          "properties": {
+                            "status_message": {
+                              "type": "string",
+                              "example": "pending-review"
+                            },
+                            "status_code": {
+                              "type": "integer",
+                              "example": 250
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "400": {
+                "description": "Bad Request",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/ErrorResponse"
+                    }
+                  }
+                }
+              },
+              "401": {
+                "description": "Unauthorized",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/ErrorResponse"
+                    }
+                  }
+                }
+              },
+              "403": {
+                "description": "Forbidden",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/ErrorResponse"
+                    }
+                  }
+                }
+              },
+              "404": {
+                "description": "Not Found",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/ErrorResponse"
+                    }
+                  }
+                }
+              },
+              "415": {
+                "description": "Unsupported Media Type",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/ErrorResponse"
+                    }
+                  }
+                }
+              },
+              "429": {
+                "description": "Too Many Requests"
+              },
+              "500": {
+                "description": "Server Error",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/ErrorResponse"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/verify-test": {
+          "post": {
+            "servers": [
+              {
+                "url": "https://qa-api.transitiq.de",
+                "description": "QA server"
+              }
+            ],
+            "summary": "Test endpoint for verify functionality",
+            "description": "Test endpoint that mirrors the /verify endpoint functionality and adds additional QA and TEST variables. Use this for testing without affecting production data.",
+            "requestBody": {
+              "required": true,
+              "content": {
+                "multipart/form-data": {
+                  "schema": {
+                    "$ref": "#/components/schemas/VerifyRequest"
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/VerifyRequest"
+                  }
+                }
+              }
+            },
+            "security": [
+              {
+                "ApiKeyAuth": []
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Success",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "allOf": [
+                        { "$ref": "#/components/schemas/BaseResponse" },
+                        {
+                          "properties": {
+                            "status_message": {
+                              "type": "string",
+                              "example": "approved"
+                            },
+                            "status_code": {
+                              "type": "integer",
+                              "example": 100
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "202": {
+                "description": "Pending Review",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "allOf": [
+                        { "$ref": "#/components/schemas/BaseResponse" },
+                        {
+                          "properties": {
+                            "status_message": {
+                              "type": "string",
+                              "example": "pending-review"
+                            },
+                            "status_code": {
+                              "type": "integer",
+                              "example": 250
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "400": {
+                "description": "Bad Request",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/ErrorResponse"
+                    }
+                  }
+                }
+              },
+              "401": {
+                "description": "Unauthorized",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/ErrorResponse"
+                    }
+                  }
+                }
+              },
+              "403": {
+                "description": "Forbidden",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/ErrorResponse"
+                    }
+                  }
+                }
+              },
+              "404": {
+                "description": "Not Found",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/ErrorResponse"
+                    }
+                  }
+                }
+              },
+              "415": {
+                "description": "Unsupported Media Type",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/ErrorResponse"
+                    }
+                  }
+                }
+              },
+              "429": {
+                "description": "Too Many Requests"
+              },
+              "500": {
+                "description": "Server Error",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/ErrorResponse"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "components": {
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "Authorization"
+          }
+        },
+        "schemas": {
+          "Address": {
+            "type": "object",
+            "required": ["street", "zip", "city", "country"],
+            "properties": {
+              "street": {
+                "type": "string",
+                "example": "Im Rottfeld 15"
+              },
+              "zip": {
+                "type": "string",
+                "example": "40239"
+              },
+              "city": {
+                "type": "string",
+                "example": "Düsseldorf"
+              },
+              "country": {
+                "type": "string",
+                "example": "Germany"
+              }
+            }
+          },
+          "PersonalInfo": {
+            "type": "object",
+            "required": ["first_name", "last_name", "birthday", "address"],
+            "properties": {
+              "first_name": {
+                "type": "string",
+                "example": "Norman"
+              },
+              "last_name": {
+                "type": "string",
+                "example": "Dilthey"
+              },
+              "birthday": {
+                "type": "string",
+                "format": "date",
+                "example": "1990-01-01"
+              },
+              "email": {
+                "type": "string"
+              },
+              "phone": {
+                "type": "string"
+              },
+              "address": {
+                "$ref": "#/components/schemas/Address"
+              }
+            }
+          },
+          "School": {
+            "type": "object",
+            "required": [
+              "name",
+              "id",
+              "address",
+              "at_school_since",
+              "expected_at_school_until",
+              "current_grade"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "St. Ursula Gymnasium",
+                "description": "Name der Schule"
+              },
+              "id": {
+                "type": "string",
+                "example": "1234567890",
+                "description": "Schulnummer von der Stadt Düsseldorf vergeben"
+              },
+              "address": {
+                "$ref": "#/components/schemas/Address"
+              },
+              "at_school_since": {
+                "type": "string",
+                "format": "date"
+              },
+              "expected_at_school_until": {
+                "type": "string",
+                "format": "date"
+              },
+              "current_grade": {
+                "type": "string"
+              }
+            }
+          },
+          "Document": {
+            "type": "object",
+            "required": ["id", "type", "date"],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "enum": ["school-certificate", "social-certificate"]
+              },
+              "date": {
+                "type": "string",
+                "format": "date"
+              }
+            }
+          },
+          "VerifyRequest": {
+            "type": "object",
+            "required": ["data", "files"],
+            "properties": {
+              "files": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "binary"
+                },
+                "minItems": 1,
+                "description": "Array of files"
+              },
+              "data": {
+                "type": "object",
+                "required": [
+                  "uuid",
+                  "efa_id",
+                  "personal_info",
+                  "school"
+                ],
+                "properties": {
+                  "uuid": {
+                    "type": "string",
+                    "example": "mentz-id",
+                    "description": "defined by sender for unique identification of process"
+                  },
+                  "efa_id": {
+                    "type": "string",
+                    "example": "EFA VRR Ticket ID / Product id",
+                    "description": "EFA VRR Ticket ID / Product id"
+                  },
+                  "personal_info": {
+                    "$ref": "#/components/schemas/PersonalInfo"
+                  },
+                  "school": {
+                    "$ref": "#/components/schemas/School"
+                  },
+                  "metadata": {
+                    "type": "string",
+                    "example": "{\"property1\": \"value1\", \"property2\": \"value2\"}",
+                    "description": "JSON stringified field for any other data to be sent"
+                  }
+                }
+              }
+            }
+          },
+          "Confidence": {
+            "type": "object",
+            "properties": {
+              "score": {
+                "type": "number",
+                "example": 0.70,
+                "description": "Confidence score of the verification process"
+              },
+              "personal_info": {
+                "type": "object",
+                "properties": {
+                  "first_name": {
+                    "type": "string",
+                    "example": "John",
+                    "description": "First name of the person"
+                  },
+                  "last_name": {
+                    "type": "string",
+                    "example": "Doe",
+                    "description": "Last name of the person"
+                  },
+                  "date_of_birth": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "1990-01-01",
+                    "description": "Date of birth of the person"
+                  },
+                  "score": {
+                    "type": "number",
+                    "example": 0.85,
+                    "description": "Confidence score for personal info"
+                  }
+                }
+              },
+              "school": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "ABC School",
+                    "description": "Name of the school"
+                  },
+                  "address": {
+                    "type": "string",
+                    "example": "123 School St.",
+                    "description": "Address of the school"
+                  },
+                  "score": {
+                    "type": "number",
+                    "example": 0.90,
+                    "description": "Confidence score for school info"
+                  }
+                }
+              }
+            }
+          },
+          "BaseResponse": {
+            "type": "object",
+            "properties": {
+              "uuid": {
+                "type": "string"
+              },
+              "efa_id": {
+                "type": "string"
+              },
+              "personal_info": {
+                "$ref": "#/components/schemas/PersonalInfo"
+              },
+              "school": {
+                "$ref": "#/components/schemas/School"
+              },
+              "confidence": {
+                "$ref": "#/components/schemas/Confidence"
+              },
+              "error_message": {
+                "type": "string",
+                "nullable": true,
+                "description": ""
+              }
+            }
+          },
+          "ErrorResponse": {
+            "allOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "uuid": {
+                    "type": "string"
+                  },
+                  "status_message": {
+                    "type": "string",
+                    "example": "error"
+                  },
+                  "status_code": {
+                    "type": "integer",
+                    "example": 400
+                  },
+                  "error_message": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          },
+          "StatusMessage": {
+            "type": "string",
+            "enum": ["approved", "pending-review", "rejected", "error"],
+            "description": "Status messages:\n- approved: Data is verified and accepted\n- pending-review: Data needs manual review\n- rejected: Application was declined\n- error: Error occurred during request or verification"
+          },
+          "StatusCode": {
+            "type": "integer",
+            "enum": [100, 200, 300, 400],
+            "description": "Status codes:\n- 100: Approved - Application is verified and accepted\n- 300: Pending Review - Application needs manual review\n- 300: Rejected - Application was declined\n- 400: Error - Error occurred during request or verification"
+          }
+        }
+      }
+    }
+    }/>
   );
 }
