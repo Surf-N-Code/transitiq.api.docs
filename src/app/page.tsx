@@ -4,10 +4,6 @@ import { RedocStandalone } from 'redoc';
 export default function Home() {
   return (
     <RedocStandalone options={{
-      generateCodeSamples: {
-        languages: [{ lang: 'curl' }, { lang: 'Node.js' }, { lang: 'JavaScript', label: 'JS' }],
-        skipOptionalParameters: true,
-      },
       theme: {
         colors: {
           primary: {
@@ -25,15 +21,11 @@ export default function Home() {
           fontSize: '15px',
           lineHeight: '1.5',
           code: {
-            code: '#87E8C7',
             backgroundColor: '#4D4D4E',
           },
         },
         schema: {
           nestedBackground: '#4D4D4E',
-        },
-        menu: {
-          backgroundColor: '#ffffff',
         },
       },
     }}
