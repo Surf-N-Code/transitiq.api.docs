@@ -1,7 +1,13 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import { NextResponse } from 'next/server'
+import { headers } from 'next/headers'
 
-export default function handler(_: NextApiRequest, res: NextApiResponse) {
-  res.setHeader('WWW-authenticate', 'Basic realm="Secure Area"')
-  res.statusCode = 401
-  res.end(`Auth Required.`)
+export async function GET() {
+  const response = NextResponse.json(
+    { message: 'Auth Required.' },
+    { status: 401 }
+  )
+  
+  response.headers.set('WWW-authenticate', 'Basic realm="Secure Area"')
+  
+  return response
 }
